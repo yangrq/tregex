@@ -29,7 +29,7 @@ void tregex_pool_destroy(tregex_pool_ctx *pool) {
 }
 
 void *tregex_pool_alloc(tregex_pool_ctx *pool) {
-  for (int i = 0; i < sizeof(pool->bitmap) / sizeof(pool->bitmap[0]); i++) {
+  for (int i = 0; i < (int)(sizeof(pool->bitmap) / sizeof(pool->bitmap[0])); i++) {
     if (pool->bitmap[i]) {
       int offset = ctzll(pool->bitmap[i]);
       pool->bitmap[i] &= ~(1ull << offset);
@@ -111,7 +111,7 @@ static int tregex_internal_stack_pop(tregex_pool_ctx *mem, tregex_internal_stack
   return idx;
 }
 
-static int tregex_internal_stack_top(tregex_pool_ctx *mem, tregex_internal_stack *stack) {
+static int tregex_internal_stack_top(tregex_internal_stack *stack) {
   return stack->top->idx;
 }
 
@@ -334,7 +334,7 @@ fail_loop:;
         vmnext;
       }
       vmcase(REPEAT) {
-        if (tregex_internal_stack_top(mem, istack) == idx) {
+        if (tregex_internal_stack_top(istack) == idx) {
           tregex_internal_stack_pop(mem, istack);
           STEP_OP_A(pc);
           vmnext;

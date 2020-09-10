@@ -1,4 +1,4 @@
-CFLAGS=-O3 -Wall -DUSE_LABELS_AS_VALUES
+FLAGS=-O3 -std=c99 -Wall -Wextra -Wno-unused-result -Wno-implicit-fallthrough -DUSE_LABELS_AS_VALUES
 
 .PHONY: clean
 
